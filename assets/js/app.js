@@ -38,16 +38,43 @@ function agregarTweet( e ){
     li.appendChild( botonEliminar );
     listaTweets.appendChild(li);
 
+    //Añadir a localstorage
+    addTweetLocalstorage( tweet );
 }
 
 //Eliminar Tweets
-
 function eliminarTweets( e ){
     e.preventDefault();
     
     if( e.target.className == 'borrar-tweet'){
         e.target.parentElement.remove();
+    }    
+}
+
+//Agregar tweet a localstorage
+function addTweetLocalstorage( tweet ){
+    let tweets;
+
+    tweets = obtenerTweetsLocalstirage();
+
+    //Añadir el nuevo tweet
+    tweets.push(tweet);
+
+    //Convertir de string a arreglo para localstorage
+    localStorage.setItem('tweets', JSON.stringify(tweets) );
+
+}
+
+//Leer los datos que hay en local storage
+function obtenerTweetsLocalstirage(){
+    let dataTweets;
+
+    //revisamos valores de localstorage
+    if( localStorage.getItem( 'tweets' ) === null ){
+        dataTweets = [];
+    }else{
+        dataTweets = JSON.parse( localStorage.getItem('tweets') );
     }
 
-    
+    return dataTweets;
 }
